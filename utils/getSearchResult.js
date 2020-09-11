@@ -70,6 +70,8 @@ async function getSearchResult(params,attributes,uid,category){
             return value.owned===false;
         });
         break;
+      case undefined:
+        break;
       default:
         throw new HttpException("The value of owned is incorrect.");
     }

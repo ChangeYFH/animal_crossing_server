@@ -12,7 +12,7 @@ const database=new Sequelize(dbName,user,password,{
     host,
     port,
     timezone:'+08:00',
-    logging:console.log,      //是否在终端显示 SQL 语句
+    logging:false,      //是否在终端显示 SQL 语句
     define:{            //define中的设置在所有表中都会应用
         // timestamps:false    //不自动生成 createdAt字段和 updateAt字段
     }
