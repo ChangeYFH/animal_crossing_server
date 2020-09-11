@@ -18,10 +18,10 @@ router.get('/villagers/detail',async ctx=>{
     ctx.body=detail;
 });
 
-router.post('/villagers/search',async ctx=>{
-    const uid=UserModel.verifyToken(ctx.request.body.headers.Authorization).uid;
+router.get('/villagers/search',async ctx=>{
+    const uid=UserModel.verifyToken(ctx.request.headers.authorization).uid;
     const attributes=['id','name','race','sex','birthday','imgUrl','character'];
-    const result=await getSearchResult(ctx.request.body.params,attributes,uid,'villagers');
+    const result=await getSearchResult(ctx.request.query,attributes,uid,'villagers');
     ctx.response.body=result;
 });
 

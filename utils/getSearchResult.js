@@ -12,20 +12,24 @@ async function getSearchResult(params,attributes,uid,category){
   for(let key of Object.keys(params)){
       if(key==='owned'){
         continue;
-      }else if(key!=='southMonth' && key!=='northMonth'){
-          sql+='`'+key+"` in ('"
-          for(let item of params[key]){
-              sql+=item+"','";
-          }
-          sql=sql.substr(0,sql.length-2);
-          sql+=') and ';
-      }else{
+      }else if(key==='southMonth' || key==='northMonth'){
           sql+='('
           for(let item of params[key]){
               sql+=key+" REGEXP '-"+item+"-' or ";
           }
           sql=sql.substr(0,sql.length-3);
           sql+=') and ';
+      }else{
+        if(Array.isArray(params[key])){
+          sql+='`'+key+"` in ('"
+          for(let item of params[key]){
+              sql+=item+"','";
+          }
+          sql=sql.substr(0,sql.length-2);
+          sql+=') and ';
+        }else{
+          sql+="`"+key+"` LIKE '"+params[key]+"' and ";
+        }
       }
   }
   sql=sql.substr(0,sql.length-4);
@@ -39,7 +43,7 @@ async function getSearchResult(params,attributes,uid,category){
   
   //拼接出最终的sql语句
   if(sql.length===0){
-    sql=`SELECT ${sqlAttributes} FROM ${category} `+sql;
+    sql=`SELECT ${sqlAttributes} FROM ${category} `;
   }else{
     sql=`SELECT ${sqlAttributes} FROM ${category} WHERE `+sql;
   }
@@ -60,12 +64,12 @@ async function getSearchResult(params,attributes,uid,category){
 
     //在之前获得的结果的基础上根据是否拥有进行过滤
     switch(params.owned){
-      case true:
+      case "true":
         result=result.filter(value=>{
             return value.owned===true;
         });
         break;
-      case false:
+      case "false":
         result=result.filter(value=>{
             return value.owned===false;
         });

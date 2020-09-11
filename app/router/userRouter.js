@@ -12,9 +12,9 @@ router.post('/user/login',async ctx=>{
     ctx.response.body=token;
 });
 
-router.post('/user/token',async ctx=>{
-    const authenticity =await UserModel.verifyToken(ctx.request.body.headers.token);
-    ctx.response.body=authenticity;
-});
+// router.post('/user/token',async ctx=>{
+//     const authenticity =await UserModel.verifyToken(ctx.request.body.headers.token);
+//     ctx.response.body=authenticity;
+// });
 
 module.exports=router;

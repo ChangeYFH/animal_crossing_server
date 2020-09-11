@@ -18,10 +18,10 @@ router.get('/insects/detail',async ctx=>{
   ctx.body=detail;
 });
 
-router.post('/insects/search',async ctx=>{
-  const uid=UserModel.verifyToken(ctx.request.body.headers.Authorization).uid;
+router.get('/insects/search',async ctx=>{
+  const uid=UserModel.verifyToken(ctx.request.headers.authorization).uid;
   const attributes=['id','zhName','appearTime','appearPlace','imgUrl'];
-  const result=await getSearchResult(ctx.request.body.params,attributes,uid,'insects');
+  const result=await getSearchResult(ctx.request.query,attributes,uid,'insects');
   ctx.response.body=result;
 });
 

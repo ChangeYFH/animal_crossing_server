@@ -18,10 +18,10 @@ router.get('/fish/detail',async ctx=>{
     ctx.body=detail;
 });
 
-router.post('/fish/search',async ctx=>{
-    const uid=UserModel.verifyToken(ctx.request.body.headers.Authorization).uid;    //根据请求头部获取uid
+router.get('/fish/search',async ctx=>{
+    const uid=UserModel.verifyToken(ctx.request.headers.authorization).uid;    //根据请求头部获取uid
     const attributes=['id','zhName','appearTime','appearPlace','imgUrl'];
-    const result=await getSearchResult(ctx.request.body.params,attributes,uid,'fish');  //根据查询条件获取结果
+    const result=await getSearchResult(ctx.request.query,attributes,uid,'fish');  //根据查询条件获取结果
     ctx.response.body=result;
 });
 
